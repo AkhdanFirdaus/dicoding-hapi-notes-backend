@@ -32,4 +32,31 @@ const addNoteHandler = (request, h) => {
     }).code(500);
 };
 
-module.exports = {addNoteHandler};
+const getAllNotesHandler = () => ({
+    status: 'success',
+    data: {
+        notes,
+    },
+});
+
+const getNoteByIdHandler = (request, h) => {
+    const {id} = request.params;
+
+    const note = notes.filter((n) => n.id === id)[0];
+
+    if (note !== undefined) {
+        return {
+            status: 'success',
+            data: {
+                note,
+            },
+        };
+    }
+
+    return h.response({
+        status: 'fail',
+        message: 'Catatan tidak ditemukan',
+    }).code(404);
+};
+
+module.exports = {addNoteHandler, getAllNotesHandler, getNoteByIdHandler};
